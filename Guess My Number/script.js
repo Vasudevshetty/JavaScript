@@ -1,5 +1,6 @@
 const number = Math.trunc(Math.random() * 20) + 1;
 let maxScore = -1;
+// check guess even listner.
 document.querySelector('.check').addEventListener('click', () => {
     let score = Number(document.querySelector('.score').textContent);
     if (score <= 0) {
@@ -29,7 +30,7 @@ document.querySelector('.check').addEventListener('click', () => {
     }
     document.querySelector('.score').textContent = score;
 })
-
+// reset game event listener.
 document.querySelector('.again').addEventListener('click', () => {
     document.querySelector('.score').textContent = 20;
     document.querySelector('.number').textContent = '?';
