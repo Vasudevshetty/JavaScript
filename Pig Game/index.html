@@ -29,7 +29,18 @@
       <button class="btn btn--new">🔄 New game</button>
       <button class="btn btn--roll">🎲 Roll dice</button>
       <button class="btn btn--hold">📥 Hold</button>
+      
     </main>
+    <div class="modal hidden">
+        <div class="modal-content">
+          <button class="close-modal">&times;</button> 
+          <h2 id="winner-name" class="name">Player 1</h2>
+          <p id="winner-message">Wins the game!</p>
+          <button id="btn-restart" class="btn btn--new">🔄️ New game</button>
+        </div>
+      </div>
+    </div>
+    <div class="overlay hidden"></div>
     <script src="script.js"></script>
   </body>
 </html>

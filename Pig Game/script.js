@@ -8,7 +8,6 @@ const currentScr1El = document.getElementById("current--1");
 const player0 = document.querySelector(".player--0");
 const player1 = document.querySelector(".player--1");
 
-
 const btnRoll = document.querySelector(".btn--roll");
 const btnNew = document.querySelector(".btn--new");
 const btnHold = document.querySelector(".btn--hold");
@@ -16,18 +15,20 @@ const btnHold = document.querySelector(".btn--hold");
 let currentScore, playing, scores, activePlayer;
 
 const newGame = () => {
-    score0El.textContent = 0;
-    score1El.textContent = 0;
-    activePlayer = 0;
-    playing = true;
-    currentScore = 0;
-    scores = [0, 0];
-    dice.classList.add('hidden');
-    player0.classList.remove('player--winner');
-    player1.classList.remove('player--winner');
-    player0.classList.add('player--active');
-    player1.classList.remove('player--active');
-}
+  score0El.textContent = 0;
+  score1El.textContent = 0;
+  currentScr0El.textContent = 0;
+  currentScr1El.textContent = 0;
+  activePlayer = 0;
+  playing = true;
+  currentScore = 0;
+  scores = [0, 0];
+  dice.classList.add("hidden");
+  player0.classList.remove("player--winner");
+  player1.classList.remove("player--winner");
+  player0.classList.add("player--active");
+  player1.classList.remove("player--active");
+};
 newGame();
 
 const switchPlayer = () => {
@@ -66,12 +67,38 @@ btnHold.addEventListener("click", () => {
         .classList.add("player--winner");
       document
         .querySelector(`.player--${activePlayer}`)
-            .classList.remove("player--active");
-        dice.classList.add('hidden');
-        playing = false;
+        .classList.remove("player--active");
+      dice.classList.add("hidden");
+      playing = false;
+
+      show();
     } else switchPlayer();
   }
 });
 
+btnNew.addEventListener("click", newGame);
 
-btnNew.addEventListener('click', newGame);
+const modal = document.querySelector(".modal");
+const overlay = document.querySelector(".overlay");
+const btnCloseModal = document.querySelector(".close-modal");
+const winner = document.getElementById("winner-name");
+const btnNewW = document.getElementById("btn-restart");
+
+const show = () => {
+  winner.textContent = activePlayer === 0 ? "Player 1" : "Player 2";
+
+  modal.classList.remove("hidden");
+  overlay.classList.remove("hidden");
+};
+
+const hide = () => {
+  modal.classList.add("hidden");
+  overlay.classList.add("hidden");
+};
+
+btnCloseModal.addEventListener("click", hide);
+overlay.addEventListener('click', hide);
+btnNewW.addEventListener("click", () => {
+  hide();
+  newGame();
+});
