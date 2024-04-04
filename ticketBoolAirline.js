@@ -69,23 +69,22 @@ const addTax = function (rate) {
 
 console.log(addTax(0.23)(200));
 
-
 ///////////////////////////////////////
 // Immediately Invoked Function Expressions (IIFE)
 const runOnce = function () {
-  console.log('This will never run again');
+  console.log("This will never run again");
 };
 runOnce();
 
 // IIFE
 (function () {
-  console.log('This will never run again');
+  console.log("This will never run again");
   const isPrivate = 23;
 })();
 
 // console.log(isPrivate);
 
-(() => console.log('This will ALSO never run again'))();
+(() => console.log("This will ALSO never run again"))();
 
 {
   const isPrivate = 23;
@@ -93,7 +92,6 @@ runOnce();
 }
 // console.log(isPrivate);
 console.log(notPrivate);
-
 
 ///////////////////////////////////////
 // Closures
@@ -106,12 +104,35 @@ const secureBooking = function () {
   };
 };
 
-const booker = secureBooking();
+const bookerClousre = secureBooking();
 
-booker();
-booker();
-booker();
+bookerClousre();
+bookerClousre();
+bookerClousre();
 
 console.dir(booker);
 
-                          
+///////////////////////////////////////
+// Coding Challenge #2
+
+/* 
+This is more of a thinking challenge than a coding challenge 🤓
+
+Take the IIFE below and at the end of the function, attach an event listener that changes the color of the selected h1 element ('header') to blue, each time the BODY element is clicked. Do NOT select the h1 element again!
+
+And now explain to YOURSELF (or someone around you) WHY this worked! Take all the time you need. Think about WHEN exactly the callback function is executed, and what that means for the variables involved in this example.
+
+GOOD LUCK 😀
+*/
+
+(function () {
+  let vasu = "vasudev dm is a good boy";
+
+  setTimeout(function () {
+    vasu = vasu.replace("good", "bad");
+    console.log(vasu);
+  }, 2000);
+
+  // the set timout function actually took the vasu varaible which was obviously not related to it by any way.
+  console.log(vasu + "\nWe will see how closures gonna work on this.\n");
+})();
