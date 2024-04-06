@@ -182,3 +182,20 @@ btnTransfer.addEventListener("click", function (e) {
     receiverAcc.movements.push(amount);
   }
 });
+
+btnClose.addEventListener("click", function (e) {
+  e.preventDefault();
+
+  if (
+    inputCloseUsername.value === currentAcc.userName &&
+    currentAcc.pin === +inputClosePin.value
+  ) {
+    const index = accounts.findIndex(
+      (acc) => acc.userName === currentAcc.userName
+    );
+
+    accounts.splice(index, 1);
+    containerApp.style.opacity = 0;
+  }
+  inputCloseUsername.value = inputClosePin.value = "";
+});
