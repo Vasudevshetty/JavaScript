@@ -74,7 +74,7 @@ const currencies = new Map([
 /////////////////////////////////////////////////
 
 const displayMovements = function (movements) {
-  containerMovements.innerHTML = "";
+  containerMovements.textContent = "";
   movements.forEach(function (movement, index) {
     const type = movement > 0 ? "deposit" : "withdrawal";
     const html = `
@@ -88,7 +88,6 @@ const displayMovements = function (movements) {
     containerMovements.insertAdjacentHTML("afterbegin", html);
   });
 };
-displayMovements(account1.movements);
 
 const createUserName = function (accounts) {
   accounts.forEach(function (account) {
@@ -100,4 +99,24 @@ const createUserName = function (accounts) {
   });
 };
 
-createUserName(accounts);
+const calcPrintBalance = function (movements) {
+  labelBalance.textContent = movements.reduce((acc, mov) => acc + mov) + "$";
+};
+
+const calcDisplaySummary = function (movements) {
+  labelSumIn.textContent = movements
+    .filter((mov) => mov > 0)
+    .reduce((acc, curr) => acc + curr, 0);
+  labelSumOut.textContent = Math.abs(
+    movements.filter((mov) => mov < 0).reduce((acc, curr) => acc + curr, 0)
+  );
+  const interest = 0.012;
+  labelSumInterest.textContent = movements
+    .filter((mov) => mov > 0)
+    .map((deposit) => deposit * interest)
+    .reduce((acc, cur) => acc + cur, 0);
+};
+
+calcDisplaySummary(account1.movements);
+displayMovements(account1.movements);
+calcPrintBalance(account1.movements);
