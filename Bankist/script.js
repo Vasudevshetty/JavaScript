@@ -103,20 +103,54 @@ const calcPrintBalance = function (movements) {
   labelBalance.textContent = movements.reduce((acc, mov) => acc + mov) + "$";
 };
 
-const calcDisplaySummary = function (movements) {
-  labelSumIn.textContent = movements
-    .filter((mov) => mov > 0)
-    .reduce((acc, curr) => acc + curr, 0);
-  labelSumOut.textContent = Math.abs(
-    movements.filter((mov) => mov < 0).reduce((acc, curr) => acc + curr, 0)
-  );
-  const interest = 0.012;
-  labelSumInterest.textContent = movements
-    .filter((mov) => mov > 0)
-    .map((deposit) => deposit * interest)
-    .reduce((acc, cur) => acc + cur, 0);
+const calcDisplaySummary = function (account) {
+  labelSumIn.textContent =
+    account.movements
+      .filter((mov) => mov > 0)
+      .reduce((acc, curr) => acc + curr, 0) + "$";
+  labelSumOut.textContent =
+    Math.abs(
+      account.movements
+        .filter((mov) => mov < 0)
+        .reduce((acc, curr) => acc + curr, 0)
+    ) + "$";
+  labelSumInterest.textContent =
+    account.movements
+      .filter((mov) => mov > 0)
+      .map((deposit) => (deposit * account.interestRate) / 100)
+      .filter((int) => int >= 1)
+      .reduce((acc, cur) => acc + cur, 0) + "$";
 };
 
-calcDisplaySummary(account1.movements);
-displayMovements(account1.movements);
-calcPrintBalance(account1.movements);
+createUserName(accounts);
+
+let currentAcc;
+
+btnLogin.addEventListener("click", function (e) {
+  e.preventDefault();
+
+  currentAcc = accounts.find(
+    (acc) => acc.userName === inputLoginUsername.value
+  );
+
+  if (currentAcc?.pin === +inputLoginPin.value) {
+    // Display ui and welcome message
+    labelWelcome.textContent = `Welcome back, ${
+      currentAcc.owner.split(" ")[0]
+    }`;
+    containerApp.style.opacity = 100;
+
+    // set username and pin blank
+    inputLoginUsername.value = inputLoginPin.value = "";
+    inputLoginPin.blur();
+
+    // Display movements
+    displayMovements(currentAcc.movements);
+
+    // Display balance
+    calcPrintBalance(currentAcc.movements);
+
+    // Display summary
+    calcDisplaySummary(currentAcc);
+  }
+});
