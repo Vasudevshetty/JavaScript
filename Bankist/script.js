@@ -73,9 +73,14 @@ const currencies = new Map([
 
 /////////////////////////////////////////////////
 
-const displayMovements = function (account) {
+const displayMovements = function (account, sort = false) {
   containerMovements.textContent = "";
-  account.movements.forEach(function (movement, index) {
+
+  const movements = sort
+    ? account.movements.slice().sort((a, b) => a - b)
+    : account.movements;
+
+  movements.forEach(function (movement, index) {
     const type = movement > 0 ? "deposit" : "withdrawal";
     const html = `
         <div class="movements__row">
@@ -210,4 +215,11 @@ btnClose.addEventListener("click", function (e) {
     containerApp.style.opacity = 0;
   }
   inputCloseUsername.value = inputClosePin.value = "";
+});
+
+let sorted = false;
+btnSort.addEventListener("click", function (e) {
+  e.preventDefault();
+  displayMovements(currentAcc, !sorted);
+  sorted = !sorted;
 });
