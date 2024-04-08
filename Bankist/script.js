@@ -205,7 +205,7 @@ const updateUI = function (account) {
   calcDisplaySummary(account);
 };
 
-let currentAcc;
+let currentAcc, timer;
 
 btnLogin.addEventListener("click", function (e) {
   e.preventDefault();
@@ -241,6 +241,9 @@ btnLogin.addEventListener("click", function (e) {
     inputLoginPin.blur();
 
     updateUI(currentAcc);
+
+    if (timer) clearInterval(timer);
+    timer = setLogoutTimer();
   }
 });
 
@@ -266,6 +269,9 @@ btnTransfer.addEventListener("click", function (e) {
     updateUI(currentAcc);
     receiverAcc.movements.push(amount);
     receiverAcc.movementsDates.push(new Date().toISOString());
+
+    if (timer) clearInterval(timer);
+    timer = setLogoutTimer();
   }
 });
 
@@ -275,9 +281,14 @@ btnLoan.addEventListener("click", function (e) {
   const amount = Math.floor(inputLoanAmount.value);
 
   if (amount > 0 && currentAcc.movements.some((mov) => mov >= amount * 0.1)) {
-    currentAcc.movements.push(amount);
-    currentAcc.movementsDates.push(new Date().toISOString());
-    updateUI(currentAcc);
+    setTimeout(function () {
+      currentAcc.movements.push(amount);
+      currentAcc.movementsDates.push(new Date().toISOString());
+      updateUI(currentAcc);
+    }, 2500);
+
+    if (timer) clearInterval(timer);
+    timer = setLogoutTimer();
   }
   inputLoanAmount.value = "";
 });
@@ -305,3 +316,23 @@ btnSort.addEventListener("click", function (e) {
   displayMovements(currentAcc, !sorted);
   sorted = !sorted;
 });
+
+const setLogoutTimer = function () {
+  let time = 300;
+  const tick = function () {
+    let min = `${Math.floor(time / 60)}`.padStart(2, 0);
+    let sec = `${time % 60}`.padStart(2, 0);
+
+    labelTimer.textContent = `${min}:${sec}`;
+
+    if (time === 0) {
+      clearInterval(timer);
+      labelWelcome.textContent = "Login to get Started";
+      containerApp.style.opacity = 0;
+    }
+    time--;
+  };
+  tick();
+  const timer = setInterval(tick, 1000);
+  return timer;
+};
