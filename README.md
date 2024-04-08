@@ -21,7 +21,7 @@ Welcome to my JavaScript learning journey! This repository has my progress in ma
 - Experience the Pig Game, a classic JavaScript-based dice game.
 - Repository: [Pig Game](https://github.com/Vasudevshetty/JavaScript/tree/main/Pig%20Game)
 
-### 4. 🏦 Bankist Project 🏦
+### 4. Bankist Project 🏦
 
 Bankist is a web-based application designed to simulate a banking system. This project is inspired by and based on the coursework from Johnathan Schimdtmann's courses. It features a user-friendly interface that allows users to manage their accounts, view transaction history, and perform various banking operations.
 
@@ -31,7 +31,7 @@ Bankist is a web-based application designed to simulate a banking system. This p
 - 📊 Transaction history view
 - 💼 Various banking operations
 
-### 🌐 GitHub Hosted Link 🌐
+#### 🌐 GitHub Hosted Link 🌐
 
 You can view the live version of Bankist on GitHub Pages at the following link:
 
