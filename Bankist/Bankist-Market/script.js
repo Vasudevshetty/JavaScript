@@ -48,7 +48,7 @@ btnCloseCookie.addEventListener("click", () => message.remove());
 */
 
 btnScrollTo.addEventListener("click", function (e) {
-  const s1coords = section1.getBoundingClientRect();
+  // const s1coords = section1.getBoundingClientRect();
 
   // window.scrollTo(s1coords.left + window.pageXOffset, s1coords.top + window.pageYOffset);
 
@@ -60,4 +60,32 @@ btnScrollTo.addEventListener("click", function (e) {
   }); */
 
   section1.scrollIntoView({ behavior: "smooth" });
+});
+
+// event propogation example
+/*
+const randomInt = (min, max) =>
+  Math.round(Math.random() * (max - min + 1) + min);
+const randomColor = () =>
+  `rgb(${randomInt(0, 255)}, ${randomInt(0, 255)},${randomInt(0, 255)})`;
+
+document.querySelector(".nav__link").dfddEventListener("click", function (e) {
+  this.style.backgroundColor = randomColor();
+});
+
+document.querySelector(".nav__links").addEventListener("click", function (e) {
+  this.style.backgroundColor = randomColor();
+});
+nav.addEventListener("click", function (e) {
+  this.style.backgroundColor = randomColor();
+});
+*/
+
+// event delegation
+document.querySelector(".nav__links").addEventListener("click", function (e) {
+  e.preventDefault();
+  if (e.target.classList.contains("nav__link")) {
+    const id = e.target.getAttribute("href");
+    document.querySelector(id).scrollIntoView({ behavior: "smooth" });
+  }
 });
