@@ -125,3 +125,27 @@ tabsContainer.addEventListener("click", function (e) {
   const tabContent = document.querySelector(`.operations__content--${tabNo}`);
   tabContent.classList.add("operations__content--active");
 });
+
+const menuFadeHandler = function (e, opacity) {
+  if (e.target.classList.contains("nav__link")) {
+    const link = e.target;
+
+    const siblings = link.closest(".nav").querySelectorAll(".nav__link");
+    const logo = link.closest(".nav").querySelector("img");
+
+    siblings.forEach((ele) => {
+      if (ele !== link) ele.style.opacity = this;
+    });
+
+    logo.style.opacity = this;
+  }
+};
+
+// menu fade animation.
+/*nav.addEventListener("mouseover", function (e) {
+  menuFadeHandler(e, 0.5);
+});*/
+// one way to do it.
+
+nav.addEventListener("mouseover", menuFadeHandler.bind(0.5));
+nav.addEventListener("mouseout", menuFadeHandler.bind(1));
