@@ -149,3 +149,31 @@ const menuFadeHandler = function (e, opacity) {
 
 nav.addEventListener("mouseover", menuFadeHandler.bind(0.5));
 nav.addEventListener("mouseout", menuFadeHandler.bind(1));
+
+// sticky
+/*
+const initCoordinates = section1.getBoundingClientRect();
+
+window.addEventListener("scroll", function () {
+  if (window.scrollY > initCoordinates.top) nav.classList.add("sticky");
+  else nav.classList.remove("sticky");
+});
+*/
+
+// better version of it
+const header = document.querySelector(".header");
+const navHeight = nav.getBoundingClientRect().height;
+const stickyNav = (entries) => {
+  const [entry] = entries;
+
+  if (!entry.isIntersecting) nav.classList.add("sticky");
+  else nav.classList.remove("sticky");
+};
+
+const headerObserver = new IntersectionObserver(stickyNav, {
+  root: null,
+  threshold: 0,
+  rootMargin: `-${navHeight}px`,
+});
+
+headerObserver.observe(header);
