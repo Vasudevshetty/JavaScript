@@ -89,3 +89,39 @@ document.querySelector(".nav__links").addEventListener("click", function (e) {
     document.querySelector(id).scrollIntoView({ behavior: "smooth" });
   }
 });
+
+/*
+// traversing the dom
+const h1 = document.querySelector("h1");
+console.log(h1.querySelectorAll(".highlight"));
+console.log(h1.childNodes);
+console.log(h1.children);
+
+h1.firstElementChild.style.color = "white";
+h1.lastElementChild.style.color = "orangered";
+
+h1.closest(".header").style.background = "var(--gradient-secondary)";
+
+// sideways
+console.log(h1.previousElementSibling);
+console.log(h1.nextElementSibling);
+console.log(h1.parentElement.children);
+*/
+
+// tabbed content
+tabsContainer.addEventListener("click", function (e) {
+  const clicked = e.target.closest(".operations__tab");
+
+  if (!clicked) return;
+
+  tabs.forEach((tab) => tab.classList.remove("operations__tab--active"));
+  clicked.classList.add("operations__tab--active");
+  tabsContent.forEach((tabs) =>
+    tabs.classList.remove("operations__content--active")
+  );
+
+  const tabNo = clicked.getAttribute("data-tab");
+
+  const tabContent = document.querySelector(`.operations__content--${tabNo}`);
+  tabContent.classList.add("operations__content--active");
+});
