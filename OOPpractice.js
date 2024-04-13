@@ -126,14 +126,14 @@ class PersonClass {
   }
 
   // say we want to set the properties.
-  set firstName(name) {
-    if (name.includes(" ")) this._firstName = name;
-    else console.log("Name doesnt contians space ");
-  }
+  // set firstName(name) {
+  //   if (name.includes(" ")) this._firstName = name;
+  //   else console.log("Name doesnt contians space ");
+  // }
 
-  get firstName() {
-    return this._firstName;
-  }
+  // get firstName() {
+  //   return this._firstName;
+  // }
 
   static hey() {
     console.log("hello");
@@ -210,3 +210,104 @@ car.brake();
 console.log(car.speedUS);
 car.speedUS = 50;
 console.log(car.speed);
+
+// inheritance of classes,
+// 1. Constructor functions
+
+const Student = function (firstName, birthYear, course) {
+  Person.call(this, firstName, birthYear);
+  this.course = course;
+};
+
+Student.prototype = Object.create(Person.prototype);
+Student.prototype.introduce = function () {
+  console.log(
+    `Hello, Myself ${
+      this.firstName
+    } and i am ${this.calcAge()} years old, studying ${this.course}.`
+  );
+};
+
+const mike = new Student("mike", 2004, "Computer Science");
+
+console.log(mike.calcAge());
+console.log(mike.__proto__);
+console.log(mike.__proto__.__proto__);
+mike.introduce();
+
+Student.prototype.constructor = Student;
+console.dir(Student.prototype.constructor);
+
+console.log(mike instanceof Student, mike instanceof Person);
+
+///////////////////////////////////////
+// Coding Challenge #3
+
+/* 
+1. Use a constructor function to implement an Electric Car (called EV) as a CHILD "class" of Car. Besides a make and current speed, the EV also has the current battery charge in % ('charge' property);
+2. Implement a 'chargeBattery' method which takes an argument 'chargeTo' and sets the battery charge to 'chargeTo';
+3. Implement an 'accelerate' method that will increase the car's speed by 20, and decrease the charge by 1%. Then log a message like this: 'Tesla going at 140 km/h, with a charge of 22%';
+4. Create an electric car object and experiment with calling 'accelerate', 'brake' and 'chargeBattery' (charge to 90%). Notice what happens when you 'accelerate'! HINT: Review the definiton of polymorphism 😉
+
+DATA CAR 1: 'Tesla' going at 120 km/h, with a charge of 23%
+
+GOOD LUCK 😀
+*/
+
+const EV = function (make, speed, charge) {
+  Car.call(this, make, speed);
+  this.charge = charge;
+};
+
+EV.prototype = Object.create(Car.prototype);
+
+EV.prototype.chargeBattery = function (chargeTo) {
+  this.charge = chargeTo;
+  console.log(`The charge of the car is ${this.charge}%.`);
+};
+
+EV.prototype.accelerate = function () {
+  this.speed += 20;
+  this.charge -= 1;
+
+  console.log(
+    `${this.make} is going at ${this.speed}km/h, with a charge of ${this.charge}%.`
+  );
+};
+
+const evCar = new EV("Tesla", 120, 23);
+evCar.accelerate();
+evCar.brake();
+evCar.chargeBattery(90);
+
+// using es6 classes
+class StudentClass extends PersonClass {
+  constructor(firstName, birthYear, course) {
+    super(firstName, birthYear);
+    this.course = course;
+  }
+
+  introduce() {
+    console.log(
+      `Hello, myself ${
+        this.firstName
+      }, and i am ${this.calcAge()} years old, studing ${this.course}.`
+    );
+  }
+}
+
+const marth = new StudentClass("marth", 1995, "EC");
+marth.introduce();
+
+// using Object.create
+
+const StudentProto = Object.create(personProto);
+StudentProto.init = function (firstName, birthYear, course) {
+  personProto.init.call(this, firstName, birthYear);
+  this.course = course;
+};
+
+const jay = Object.create(StudentProto);
+jay.init("Jay", 2010, "EE");
+
+jay.calcAge();
