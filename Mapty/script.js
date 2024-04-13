@@ -10,7 +10,8 @@ const inputElevation = document.querySelector(".form__input--elevation");
 
 class Workout {
   date = new Date();
-  #id = (Date.now() + "").slice(-10);
+  id = (Date.now() + "").slice(-10);
+  clicks = 0;
 
   constructor(coords, distance, duration) {
     this.distance = distance; // in km
@@ -38,8 +39,11 @@ class Workout {
       1
     )} on ${months.at(this.date.getMonth())} ${this.date.getDate()}`;
   }
-}
 
+  click() {
+    this.clicks++;
+  }
+}
 class Running extends Workout {
   type = "running";
   constructor(coords, distance, duration, cadence) {
@@ -73,12 +77,14 @@ class Cycling extends Workout {
 class App {
   #map;
   #mapEvent;
+  #mapZoomLevel = 13;
   #workouts = [];
 
   constructor() {
     this._getPosition();
     inputType.addEventListener("change", this._toggleElevationField.bind(this));
     form.addEventListener("submit", this._newWorkout.bind(this));
+    containerWorkouts.addEventListener("click", this._moveToPopUp.bind(this));
   }
 
   _getPosition() {
@@ -99,7 +105,7 @@ class App {
 
     const coords = [latitude, longitude];
 
-    this.#map = L.map("map").setView(coords, 13);
+    this.#map = L.map("map").setView(coords, this.#mapZoomLevel);
 
     L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
       attribution:
@@ -219,8 +225,8 @@ class App {
             }</span>
             <span class="workout__value">${
               workout.type === "running"
-                ? workout.cadence + "spm"
-                : workout.elevation + "m"
+                ? workout.cadence
+                : workout.elevationGain
             }</span>
             <span class="workout__unit">${
               workout.type === "running" ? "spm" : "m"
@@ -249,6 +255,21 @@ class App {
         `${workout.description} ${workout.type === "running" ? "🏃" : "🚴"}`
       )
       .openPopup();
+  }
+
+  _moveToPopUp(e) {
+    const workoutSidebar = e.target.closest(".workout");
+    const work = this.#workouts.find(
+      (workout) => workout.id === workoutSidebar.dataset.id
+    );
+    this.#map.setView(work.coords, this.#mapZoomLevel, {
+      animate: true,
+      pan: {
+        duration: 1,
+      },
+    });
+    work.click();
+    console.log(work);
   }
 }
 
