@@ -311,3 +311,56 @@ const jay = Object.create(StudentProto);
 jay.init("Jay", 2010, "EE");
 
 jay.calcAge();
+
+///////////////////////////////////////
+// Coding Challenge #4
+
+/* 
+1. Re-create challenge #3, but this time using ES6 classes: create an 'EVCl' child class of the 'CarCl' class
+2. Make the 'charge' property private;
+3. Implement the ability to chain the 'accelerate' and 'chargeBattery' methods of this class, and also update the 'brake' method in the 'CarCl' class. They experiment with chining!
+
+DATA CAR 1: 'Rivian' going at 120 km/h, with a charge of 23%
+
+GOOD LUCK 😀
+*/
+
+class EVCL extends CarCl {
+  #charge;
+
+  constructor(make, speed, charge) {
+    super(make, speed);
+    this.#charge = charge;
+  }
+
+  accelerate() {
+    this.speed += 20;
+    this.#charge--;
+    console.log("speed is", this.speed, "charge is ", this.#charge);
+    return this;
+  }
+
+  chargeBattery(chargeTo) {
+    this.#charge = chargeTo;
+    console.log("charge is ", this.#charge);
+    return this;
+  }
+
+  brake() {
+    this.speed -= 10;
+    console.log("speed is", this.speed);
+    return this;
+  }
+}
+
+const rc = new EVCL("Rivian", 120, 23);
+
+rc.accelerate()
+  .brake()
+  .accelerate()
+  .chargeBattery(30)
+  .accelerate()
+  .accelerate()
+  .brake();
+
+console.log(rc.speedUS);
