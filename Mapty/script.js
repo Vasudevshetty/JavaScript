@@ -82,6 +82,9 @@ class App {
 
   constructor() {
     this._getPosition();
+
+    this._getLocalStorage();
+
     inputType.addEventListener("change", this._toggleElevationField.bind(this));
     form.addEventListener("submit", this._newWorkout.bind(this));
     containerWorkouts.addEventListener("click", this._moveToPopUp.bind(this));
@@ -109,9 +112,11 @@ class App {
 
     L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
       attribution:
-        '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+        '&copy; <a href="https://www.openstreetmap.hr/hot/copyright">OpenStreetMap</a> contributors',
     }).addTo(this.#map);
     this.#map.on("click", this._showForm.bind(this));
+
+    this.#workouts.forEach((work) => this._renderMarker(work));
   }
 
   _clearInputFields() {
@@ -185,14 +190,15 @@ class App {
 
     this.#workouts.push(workout);
 
-    // render
-    this.renderSidebar(workout);
-    this.renderMarker(workout);
+    // _render
+    this._renderSidebar(workout);
+    this._renderMarker(workout);
 
+    this._setLocalStorage();
     this._hideForm();
   }
 
-  renderSidebar(workout) {
+  _renderSidebar(workout) {
     const createWorkoutHTML = function (workout) {
       return `<li class="workout workout--${
         workout.type === "running" ? "running" : "cycling"
@@ -239,7 +245,7 @@ class App {
     form.insertAdjacentHTML("afterend", workoutHTML);
   }
 
-  renderMarker(workout) {
+  _renderMarker(workout) {
     L.marker(workout.coords)
       .addTo(this.#map)
       .bindPopup(
@@ -268,8 +274,29 @@ class App {
         duration: 1,
       },
     });
-    work.click();
-    console.log(work);
+
+    // this dont work on the objects got back from the localstorage(string->object) using JSON coz,
+    // the prototype chain has been distrubed, it basically has its proto pointing to Object.
+    // very essestional part to remember.
+    // work.click();
+  }
+  _setLocalStorage() {
+    localStorage.setItem("workouts", JSON.stringify(this.#workouts));
+  }
+
+  _getLocalStorage() {
+    const data = JSON.parse(localStorage.getItem("workouts"));
+
+    if (!data) return;
+    this.#workouts = data;
+
+    this.#workouts.forEach((work) => this._renderSidebar(work));
+  }
+
+  // use this method in console to get rid of localstoarge data.
+  reset() {
+    localStorage.removeItem("workouts");
+    location.reload();
   }
 }
 
