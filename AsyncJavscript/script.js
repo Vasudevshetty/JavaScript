@@ -98,7 +98,7 @@ const getCountryData = function (country) {
 };
 
 btn.addEventListener("click", function () {
-  getCountryData("africa");
+  getCountryData("india");
 });
 
 ///////////////////////////////////////
@@ -139,7 +139,6 @@ const whereAmI = function (lat, lng) {
       return response.json();
     })
     .then((data) => {
-      console.log(data);
       const { city, country } = data;
 
       countriesContainer.insertAdjacentText(
