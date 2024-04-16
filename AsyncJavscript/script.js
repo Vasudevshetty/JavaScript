@@ -91,15 +91,10 @@ const getCountryData = function (country) {
     })
     .then((data) => renderCountryCard(data[0], "neighbour"))
     .catch((err) => {
-      console.log(err);
       renderError(err.message);
     })
     .finally(() => (countriesContainer.style.opacity = 1));
 };
-
-btn.addEventListener("click", function () {
-  getCountryData("india");
-});
 
 ///////////////////////////////////////
 // Coding Challenge #1
@@ -155,5 +150,31 @@ const whereAmI = function (lat, lng) {
 //   const { lat, lng } = position.coords;
 // });
 
-whereAmI(19.037, 72.873);
+// whereAmI(19.037, 72.873);
 // whereAmI(-33.933, 18.474);
+
+// lets promisfy geolocation
+const getLocation = function () {
+  return new Promise((resolve, reject) => {
+    // navigator.geolocation.getCurrentPosition(
+    //   (position) => resolve(position),
+    //   (error) => reject(error)
+    // );
+
+    // make it simpler
+    navigator.geolocation.getCurrentPosition(resolve, reject);
+  });
+};
+
+getLocation()
+  .then((data) => console.log(data))
+  .catch((err) => console.error(err));
+
+btn.addEventListener("click", function () {
+  getLocation()
+    .then((data) => {
+      const { latitude, longitude } = data.coords;
+      whereAmI(latitude, longitude);
+    })
+    .catch((err) => renderError(err.message));
+});

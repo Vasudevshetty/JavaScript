@@ -23,3 +23,27 @@ const lotteryPromise = new Promise(function (resolve, reject) {
 lotteryPromise
   .then((res) => console.log(res))
   .catch((err) => console.error(err.message));
+
+// promisfying a callback, using a real world example.
+const wait = function (seconds) {
+  return new Promise(function (resolve) {
+    setTimeout(resolve, seconds * 1000);
+  });
+};
+
+const waitArrow = (seconds) =>
+  new Promise((resolve) => setTimeout(resolve, seconds * 1000));
+
+wait(3).then(() => console.log("waited for 3 seconds"));
+waitArrow(2).then(() => console.log("waited for 2 seconds"));
+
+wait(1)
+  .then(() => {
+    console.log("waited 1 seconds, lets make it 2 by calling once more");
+    return wait(2);
+  })
+  .then(() => console.log("waited 3 seconds in toatl"));
+
+// way eaier by calling, Promise.resolve static method similary with reject too.
+Promise.resolve("abc").then((res) => console.log(res));
+Promise.reject(new Error("abc")).catch((err) => console.error(err));
