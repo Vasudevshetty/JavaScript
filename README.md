@@ -4,7 +4,7 @@
 
 Welcome to my JavaScript learning journey! This repository has my progress in mastering JavaScript through practical projects. Each section corresponds to a different project, providing both code and insights into the concepts learned.
 
-## Project Details
+<!-- ## Project Details
 
 ### 1. Guess My Number Game 🔢
 
@@ -35,7 +35,7 @@ Bankist is a web-based application designed to simulate a banking system. This p
 
 You can view the live version of Bankist on GitHub Pages at the following link:
 
-[live demo](https://vasudevshetty.github.io/JavaScript/Bankist/)
+[live demo](https://vasudevshetty.github.io/JavaScript/Bankist/) -->
 
 ## Contribution
 
