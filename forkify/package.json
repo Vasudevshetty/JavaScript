@@ -1,0 +1,14 @@
+{
+  "name": "forkify",
+  "version": "1.0.0",
+  "description": "Advanced javascript practice project",
+  "main": "index.js",
+  "scripts": {
+    "compile:sass": "npm run sass/main.scss css/style.css"
+  },
+  "author": "vasu",
+  "license": "ISC",
+  "devDependencies": {
+    "sass": "^1.75.0"
+  }
+}
