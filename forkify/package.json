@@ -19,6 +19,8 @@
   "homepage": "https://github.com/Vasudevshetty#readme",
   "devDependencies": {
     "@parcel/transformer-sass": "^2.12.0",
-    "parcel": "^2.12.0"
+    "parcel": "^2.12.0",
+    "parcel-bundler": "^1.12.5",
+    "sass": "^1.75.0"
   }
 }

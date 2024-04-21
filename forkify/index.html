@@ -28,6 +28,54 @@
             <span>Search</span>
           </button>
         </form>
+
+        <nav class="nav">
+          <ul class="nav__list">
+            <li class="nav__item">
+              <button class="nav__btn nav__btn--add-recipe">
+                <svg class="nav__icon">
+                  <use href="img/icons.svg#icon-edit"></use>
+                </svg>
+                <span>Add recipe</span>
+              </button>
+            </li>
+
+            <li class="nav__item">
+              <button class="nav__btn nav__btn--bookmarks">
+                <svg class="nav__icon">
+                  <use href="img/icons.svg#icon-bookmark"></use>
+                </svg>
+              </button>
+              <span>Bookmarks</span>
+            </li>
+
+            <div class="bookmarks">
+              <ul class="bookmarks__list">
+                <div class="message">
+                  <div>
+                    <svg>
+                      <use href="img/icons.svg#icon-smile"></use>
+                    </svg>
+                  </div>
+                  <p>No bookmarks yet. Find a nice recipe and bookmark it :)</p>
+                </div>
+
+                <li class="preview">
+                  <a href="#23456" class="preview__link">
+                    <figure class="preview__flag">
+                      <img src="img/favicon.png" alt="Test" />
+                    </figure>
+
+                    <div class="preview__data">
+                      <h4 class="preview__name">Pasta with Tomato Cream...</h4>
+                    </div>
+                    <p class="preview__author">The Pioneer Woman</p>
+                  </a>
+                </li>
+              </ul>
+            </div>
+          </ul>
+        </nav>
       </header>
     </div>
   </body>
