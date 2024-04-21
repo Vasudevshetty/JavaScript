@@ -3,8 +3,33 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Forkify</title>
-    <link rel="stylesheet" href="style.css" />
+    <link
+      href="https://fonts.googleapis.com/css?family=Nunito+Sans:400,600,700"
+      rel="stylesheet"
+    />
+    <title>Forkify || Search over 1,000,000 recipes</title>
+    <link rel="shortcut icon" href="img/favicon.png" type="image/x-icon" />
+    <!-- <link rel="stylesheet" href="sass/main.scss" /> -->
+    <link rel="stylesheet" href="css/style.css" />
   </head>
-  <body></body>
+  <body>
+    <div class="container">
+      <header class="header">
+        <img src="img/logo.png" alt="Logo " class="header__logo" />
+        <form class="search">
+          <input
+            type="text"
+            class="search__field"
+            placeholder="Search over 1,000,000 recipess..."
+          />
+          <button class="btn search__btn">
+            <svg class="search__icon">
+              <use href="img/icons.svg#icon-search"></use>
+            </svg>
+            <span>Search</span>
+          </button>
+        </form>
+      </header>
+    </div>
+  </body>
 </html>
