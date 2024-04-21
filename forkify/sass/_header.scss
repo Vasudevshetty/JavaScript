@@ -32,16 +32,15 @@
     color: inherit;
     font-size: 1.7rem;
     width: 30rem;
-  }
 
-  &:focus {
-    outline: none;
-  }
+    &:focus {
+      outline: none;
+    }
 
-  &::placeholder {
-    color: $color-grey-light-3;
+    &::placeholder {
+      color: $color-grey-light-3;
+    }
   }
-
   @media only screen and (max-width: $bp-medium) {
     width: auto;
 
