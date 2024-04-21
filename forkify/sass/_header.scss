@@ -40,12 +40,12 @@
     &::placeholder {
       color: $color-grey-light-3;
     }
-  }
-  @media only screen and (max-width: $bp-medium) {
-    width: auto;
+    @media only screen and (max-width: $bp-medium) {
+      width: auto;
 
-    &::placeholder {
-      color: white;
+      &::placeholder {
+        color: white;
+      }
     }
   }
 
@@ -76,6 +76,7 @@
     font-size: 1.4rem;
     font-weight: 700;
     background: none;
+    text-transform: uppercase;
     border: none;
     cursor: pointer;
     padding: 0 1.5rem;
