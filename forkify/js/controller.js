@@ -1,5 +1,6 @@
 import * as model from "./model";
 import recipeView from "./views/recipeView";
+import resultsView from "./views/resultsView";
 import searchView from "./views/searchView";
 
 import "core-js/stable";
@@ -17,21 +18,24 @@ const controlRecipes = async function () {
   }
 };
 
-const controlSearchResults = async function (e) {
+const controlSearchResults = async function () {
   try {
-    e.preventDefault();
-    const query = document.querySelector(".search__field").value;
-    searchView.renderSpinner();
+    const query = searchView.getQuery();
+    if (!query) return;
+
+    resultsView.renderSpinner();
     await model.searchResults(query);
-    searchView.render(model.state.search);
+    searchView.clearInput();
+
+    resultsView.render(model.state.search.recipes);
   } catch (err) {
-    searchView.renderError();
+    resultsView.renderError();
   }
 };
 
 const init = function () {
   recipeView.addHandlerRender(controlRecipes);
-  searchView.addHandleRender(controlSearchResults);
+  searchView.addHandlerSearch(controlSearchResults);
 };
 
 init();

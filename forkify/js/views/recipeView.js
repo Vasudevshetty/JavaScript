@@ -1,18 +1,10 @@
 import { Fraction } from "fractional";
 import icons from "../../img/icons.svg";
-import { renderSpinnerHelper } from "../helpers";
+import View from "./View";
 
-class RecipeView {
-  #data;
-  #parentElement = document.querySelector(".recipe");
-  #errorMessage = "No recipes found for your query. Please try again!";
-
-  render(data) {
-    this.#data = data;
-    this.#clear();
-    const html = this.#generateMarkup();
-    this.#parentElement.insertAdjacentHTML("afterbegin", html);
-  }
+class RecipeView extends View {
+  errorMessage = "No recipes found for your query. Please try again!";
+  parentElement = document.querySelector(".recipe");
 
   addHandlerRender(handler) {
     ["load", "hashchange"].forEach((ev) =>
@@ -20,19 +12,15 @@ class RecipeView {
     );
   }
 
-  #clear() {
-    this.#parentElement.innerHTML = "";
-  }
-
-  #generateMarkup() {
+  _generateMarkup() {
     return `
     <div class="recipe">
         <figure class="recipe__fig">
           <img src="${
-            this.#data.image
+            this.data.image
           }" alt="recipe image" class="recipe__img" />
           <h1 class="recipe__title">
-            <span>${this.#data.title}</span>
+            <span>${this.data.title}</span>
           </h1>
         </figure>
 
@@ -42,7 +30,7 @@ class RecipeView {
               <use href="${icons}#icon-clock"></use>
             </svg>
             <span class="recipe__info-data recipe__info-data--minutes">${
-              this.#data.cookingTime
+              this.data.cookingTime
             }</span>
             <span class="recipe__info-text">minutes</span>
           </div>
@@ -69,9 +57,7 @@ class RecipeView {
           </div>
 
           <div class="recipe__user-generated">
-            <svg>
-              <use href="${icons}#icon-user"></use>
-            </svg>
+          
           </div>
           <button class="btn--round">
             <svg>
@@ -92,12 +78,12 @@ class RecipeView {
           <p class="recipe__directions-text">
             This recipe was carefully designed and tested by
             <span class="recipe__publisher">${
-              this.#data.publisher
+              this.data.publisher
             }</span>. Please
             check out the directions at their website
           </p>
           <a
-            href="${this.#data.sourceUrl}"
+            href="${this.data.sourceUrl}"
             class="btn--small recipe__btn"
             target="_blank"
           >
@@ -112,7 +98,7 @@ class RecipeView {
 
   #generateIngredients() {
     return `
-          ${this.#data.ingredients.reduce(
+          ${this.data.ingredients.reduce(
             (accumulator, ingredient) =>
               accumulator +
               `<li class="recipe__ingredient">
@@ -130,35 +116,6 @@ class RecipeView {
             ""
           )}
         `;
-  }
-
-  #generateMessage() {
-    return `
-        <div class="message">
-          <div>
-            <svg>
-              <use href="${icons}#icon-smile"></use>
-            </svg>
-          </div>
-          <p>Start by searching for a recipe or an ingredient. Have fun!</p>
-        </div>`;
-  }
-  renderError(errorMessage = this.#errorMessage) {
-    const error = ` 
-        <div class="error">
-          <div>
-            <svg>
-              <use href="${icons}#icon-alert-triangle"></use>
-            </svg>
-          </div>
-          <p>${errorMessage}</p>
-        </div>`;
-    this.#clear();
-    this.#parentElement.innerHTML = error;
-  }
-
-  renderSpinner() {
-    renderSpinnerHelper(this.#parentElement);
   }
 }
 
