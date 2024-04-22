@@ -4,7 +4,7 @@ import View from "./View";
 class ResultsView extends View {
   parentElement = document.querySelector(".results");
   errorMessage = "No recipes found for your query ;)";
-  message = '';
+  message = "";
 
   _generateMarkup() {
     return this.data.reduce(
@@ -28,6 +28,8 @@ class ResultsView extends View {
         `,
       ""
     );
+
+    
   }
 }
 
