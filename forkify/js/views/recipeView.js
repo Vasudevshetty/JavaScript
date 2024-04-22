@@ -1,15 +1,23 @@
 import { Fraction } from "fractional";
 import icons from "../../img/icons.svg";
+import { renderSpinnerHelper } from "../helpers";
 
 class RecipeView {
   #data;
   #parentElement = document.querySelector(".recipe");
+  #errorMessage = "No recipes found for your query. Please try again!";
 
   render(data) {
     this.#data = data;
     this.#clear();
     const html = this.#generateMarkup();
     this.#parentElement.insertAdjacentHTML("afterbegin", html);
+  }
+
+  addHandlerRender(handler) {
+    ["load", "hashchange"].forEach((ev) =>
+      window.addEventListener(ev, handler)
+    );
   }
 
   #clear() {
@@ -100,7 +108,6 @@ class RecipeView {
           </a>
         </div> 
       </div>`;
-    console.log(html);
   }
 
   #generateIngredients() {
@@ -113,7 +120,7 @@ class RecipeView {
                 <use href="${icons}#icon-check"></use>
               </svg>
               <div class="recipe__quantity">${new Fraction(
-                ingredient.quantity ?? 1  
+                ingredient.quantity ?? 1
               )}</div>
               <div class="recipe__description">
               <span class="recipe__unit">${ingredient.unit}</span>
@@ -136,26 +143,22 @@ class RecipeView {
           <p>Start by searching for a recipe or an ingredient. Have fun!</p>
         </div>`;
   }
-  #generateError() {
-    return ` 
+  renderError(errorMessage = this.#errorMessage) {
+    const error = ` 
         <div class="error">
           <div>
             <svg>
               <use href="${icons}#icon-alert-triangle"></use>
             </svg>
           </div>
-          <p>No recipes found for your query. Please try again!</p>
+          <p>${errorMessage}</p>
         </div>`;
+    this.#clear();
+    this.#parentElement.innerHTML = error;
   }
 
   renderSpinner() {
-    const spin = `<div class="spinner">
-          <svg>
-            <use href="${icons}#icon-loader"></use>
-          </svg>
-        </div>`;
-    this.#clear();
-    this.#parentElement.insertAdjacentHTML("afterbegin", spin);
+    renderSpinnerHelper(this.#parentElement);
   }
 }
 
