@@ -12,6 +12,19 @@ class RecipeView extends View {
     );
   }
 
+  addHandlerUpdateServings(handler) {
+    this.parentElement.addEventListener("click", (e) => {
+      const btn = e.target.closest(".btn--tiny");
+      if (!btn) return;
+      let servings = this.data.servings;
+      handler(
+        btn.classList.contains("btn--increase-servings")
+          ? servings + 1
+          : servings - 1 || 1
+      );
+    });
+  }
+
   _generateMarkup() {
     return `
     <div class="recipe">
@@ -39,16 +52,18 @@ class RecipeView extends View {
             <svg class="recipe__info-icon">
               <use href="${icons}#icon-users"></use>
             </svg>
-            <span class="recipe__info-data recipe__info-data-people">4</span>
+            <span class="recipe__info-data recipe__info-data-people">${
+              this.data.servings
+            }</span>
             <span class="recipe__info-text">servings</span>
 
             <div class="recipe__info-buttons">
-              <button class="btn--tiny btn--increse-servings">
+              <button class="btn--tiny btn--decrease-servings">
                 <svg>
                   <use href="${icons}#icon-minus-circle"></use>
                 </svg>
               </button>
-              <button class="btn--tiny btn--increse-servings">
+              <button class="btn--tiny btn--increase-servings">
                 <svg>
                   <use href="${icons}#icon-plus-circle"></use>
                 </svg>
@@ -59,6 +74,7 @@ class RecipeView extends View {
           <div class="recipe__user-generated">
           
           </div>
+
           <button class="btn--round">
             <svg>
               <use href="${icons}#icon-bookmark-fill"></use>
@@ -105,9 +121,9 @@ class RecipeView extends View {
               <svg class="recipe__icon">
                 <use href="${icons}#icon-check"></use>
               </svg>
-              <div class="recipe__quantity">${new Fraction(
-                ingredient.quantity ?? 1
-              )}</div>
+              <div class="recipe__quantity">${
+                ingredient.quantity ? new Fraction(ingredient.quantity) : ""
+              }</div>
               <div class="recipe__description">
               <span class="recipe__unit">${ingredient.unit}</span>
                 ${ingredient.description}
