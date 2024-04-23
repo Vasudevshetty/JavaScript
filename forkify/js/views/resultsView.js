@@ -1,4 +1,3 @@
-import icons from "../../img/icons.svg";
 import View from "./View";
 
 class ResultsView extends View {
@@ -7,6 +6,7 @@ class ResultsView extends View {
   message = "";
 
   _generateMarkup() {
+    const id = window.location.hash.slice("1");
     return this.data.reduce(
       (accumulator, recipe) =>
         accumulator +
@@ -14,8 +14,10 @@ class ResultsView extends View {
         <li class="preview">
             <a
               href="#${recipe.id}"
-              class="preview__link"
-            >
+              class="preview__link ${
+                id === recipe.id ? "preview__link--active" : ""
+              }
+              ">
               <figure class="preview__fig">
                 <img src="${recipe.imageURL}" alt="Test" />
               </figure>
@@ -28,8 +30,6 @@ class ResultsView extends View {
         `,
       ""
     );
-
-    
   }
 }
 
