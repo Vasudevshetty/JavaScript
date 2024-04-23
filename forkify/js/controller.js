@@ -9,6 +9,7 @@ import { getLocalStorage } from "./helpers";
 
 import "core-js/stable";
 import "regenerator-runtime/runtime";
+import addRecipeView from "./views/addRecipeView";
 
 const controlRecipes = async function () {
   try {
@@ -79,12 +80,17 @@ const controlLoad = function () {
   // resultsView.render(query);
 };
 
+const controlAddRecipe = function (newRecipe) {
+  console.log(newRecipe);
+};
+
 const init = function () {
   recipeView.addHandlerRender(controlRecipes);
   recipeView.addHandlerUpdateServings(controlServings);
   recipeView.addHandlerBookmark(controlBookmark);
   searchView.addHandlerSearch(controlSearchResults);
   paginationView.addHandlerRender(controlPagination);
+  addRecipeView.addHandlerRender(controlAddRecipe);
 
   // get data from local storage
   window.addEventListener("load", controlLoad);
