@@ -1,5 +1,5 @@
 import { API_URL, RES_PER_PAGE } from "./config";
-import { getJSON } from "./helpers";
+import { getJSON, setLocalStorage } from "./helpers";
 
 export const state = {
   recipe: {},
@@ -27,7 +27,7 @@ export const loadRecipe = async function (id) {
       ingredients: recipe.ingredients,
       bookmarked: false,
     };
-
+    setLocalStorage("recipe", recipe);
     if (state.bookmarks.some((bookmark) => bookmark.id === id))
       state.recipe.bookmarked = true;
   } catch (err) {
@@ -46,9 +46,10 @@ export const searchResults = async function (query) {
         id: recipe.id,
         title: recipe.title,
         publisher: recipe.publisher,
-        imageURL: recipe.image_url,
+        image: recipe.image_url,
       };
     });
+    setLocalStorage("query", state.search);
   } catch (err) {
     throw err;
   }
@@ -73,10 +74,12 @@ export const updateServings = function (newServings = state.recipe.servings) {
 export const addBookmark = function (recipe) {
   state.bookmarks.push(recipe);
   if (recipe.id === location.hash.slice(1)) state.recipe.bookmarked = true;
+  setLocalStorage("bookmarks", state.bookmarks);
 };
 
 export const removeBookmark = function (id) {
   let index = state.bookmarks.findIndex((bookmark) => bookmark.id === id);
   state.bookmarks.splice(index, 1);
   if (location.hash.slice(1) === id) state.recipe.bookmarked = false;
+  persistBookmark("bookmarks", state.bookmarks);
 };

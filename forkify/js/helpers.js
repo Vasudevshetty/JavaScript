@@ -15,10 +15,17 @@ export const getJSON = async function (url) {
   try {
     const response = await Promise.race([fetch(url), timeout(TIMEOUT)]);
     const data = response.json();
-    if (!response.ok )
-      throw new Error(`${data.message} ${response.status}`);
+    if (!response.ok) throw new Error(`${data.message} ${response.status}`);
     return data;
   } catch (err) {
     throw err;
   }
+};
+
+export const setLocalStorage = function (key, object) {
+  localStorage.setItem(key, JSON.stringify(object));
+};
+
+export const getLocalStorage = function (key) {
+  return JSON.parse(localStorage.getItem(key));
 };

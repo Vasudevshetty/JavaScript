@@ -5,6 +5,8 @@ import searchView from "./views/searchView";
 import paginationView from "./views/paginationView";
 import bookmarksView from "./views/bookmarksView";
 
+import { getLocalStorage } from "./helpers";
+
 import "core-js/stable";
 import "regenerator-runtime/runtime";
 
@@ -14,6 +16,7 @@ const controlRecipes = async function () {
     if (!id) return;
     recipeView.renderSpinner();
     resultsView.update(model.getPageResults());
+    bookmarksView.update(model.state.bookmarks);
     await model.loadRecipe(id);
     recipeView.render(model.state.recipe);
   } catch (err) {
@@ -54,12 +57,37 @@ const controlBookmark = function () {
   bookmarksView.render(model.state.bookmarks);
 };
 
+const controlLoad = function () {
+  const bookmarks = getLocalStorage("bookmarks");
+  const query = getLocalStorage("query");
+  const recipe = getLocalStorage("recipe");
+
+  if (!recipe)
+    recipeView.renderMessage(
+      "Start by searching for a recipe or an ingredient. Have fun!"
+    );
+
+  if (!query)
+    resultsView.renderMessage("Search results will be displayed here. :)");
+
+  if (!bookmarks)
+    bookmarksView.renderMessage(
+      "No bookmarks yet. Find a nice recipe and bookmark it :)"
+    );
+  else bookmarksView.render(bookmarks);
+
+  // resultsView.render(query);
+};
+
 const init = function () {
   recipeView.addHandlerRender(controlRecipes);
   recipeView.addHandlerUpdateServings(controlServings);
   recipeView.addHandlerBookmark(controlBookmark);
   searchView.addHandlerSearch(controlSearchResults);
   paginationView.addHandlerRender(controlPagination);
+
+  // get data from local storage
+  window.addEventListener("load", controlLoad);
 };
 
 init();
