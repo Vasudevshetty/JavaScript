@@ -28,7 +28,7 @@ const createRecipeObject = function (recipe) {
 
 export const loadRecipe = async function (id) {
   try {
-    const data = await AJAX(`${API_URL}/${id}`);
+    const data = await AJAX(`${API_URL}/${id}?key=${API_KEY}`);
     const { recipe } = data.data;
     state.recipe = createRecipeObject(recipe);
     setLocalStorage("recipe", recipe);
@@ -42,7 +42,7 @@ export const loadRecipe = async function (id) {
 
 export const searchResults = async function (query) {
   try {
-    const data = await AJAX(`${API_URL}?search=${query}`);
+    const data = await AJAX(`${API_URL}?search=${query}&key=${API_KEY}`);
     const { recipes } = data.data;
     state.search.query = query;
     state.search.page = 1;
@@ -52,6 +52,7 @@ export const searchResults = async function (query) {
         title: recipe.title,
         publisher: recipe.publisher,
         image: recipe.image_url,
+        ...(recipe.key && { key: recipe.key }),
       };
     });
     setLocalStorage("query", state.search);
@@ -114,10 +115,7 @@ export const uploadRecipe = async function (newRecipe) {
       ingredients,
     };
 
-    const serverData = await AJAX(
-      `${API_URL}?key=${API_KEY}`,
-      recipeToServer
-    );
+    const serverData = await AJAX(`${API_URL}?key=${API_KEY}`, recipeToServer);
     const { recipe } = serverData.data;
     state.recipe = createRecipeObject(recipe);
     addBookmark(state.recipe);

@@ -34,6 +34,7 @@ class RecipeView extends View {
   }
 
   _generateMarkup() {
+    console.log(this.data);
     return `
     <div class="recipe">
         <figure class="recipe__fig">
@@ -79,15 +80,17 @@ class RecipeView extends View {
             </div>
           </div>
 
-          <div class="recipe__user-generated">
-          
+          <div class="recipe__user-generated ${this.data.key ? "" : "hidden"}">
+             <svg class="nav__icon">
+                <use href="${icons}#icon-user"></use>
+              </svg>
           </div>
 
           <button class="btn--round btn--bookmark">
             <svg>
               <use href="${icons}#icon-bookmark${
-                this.data.bookmarked ? "-fill" : ""
-              }"></use>
+      this.data.bookmarked ? "-fill" : ""
+    }"></use>
             </svg>
           </button>
         </div>
