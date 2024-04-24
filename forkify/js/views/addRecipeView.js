@@ -6,6 +6,7 @@ class AddRecipeView extends View {
   #modalWindow = document.querySelector(".add-recipe-window");
   #overlay = document.querySelector(".overlay");
   #close = document.querySelector(".btn--close-modal");
+  #submit = document.querySelector(".upload__btn");
 
   addHandlerRender(handler) {
     this.parentElement.addEventListener("submit", (e) => {
@@ -13,23 +14,22 @@ class AddRecipeView extends View {
       const formDataArr = [...new FormData(this.parentElement)];
       const formData = Object.fromEntries(formDataArr);
       handler(formData);
-      this.#toggleWindow().bind(this);
     });
   }
 
   constructor() {
     super();
-    this.#addHandlerShowModal();
+    this.addHandlerShowModal();
   }
 
-  #toggleWindow() {
+  toggleWindow() {
     this.#modalWindow.classList.toggle("hidden");
     this.#overlay.classList.toggle("hidden");
   }
 
-  #addHandlerShowModal() {
-    this.#open.addEventListener("click", this.#toggleWindow.bind(this));
-    this.#close.addEventListener("click", this.#toggleWindow.bind(this));
+  addHandlerShowModal() {
+    this.#open.addEventListener("click", this.toggleWindow.bind(this));
+    this.#close.addEventListener("click", this.toggleWindow.bind(this));
   }
 }
 

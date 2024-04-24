@@ -10,6 +10,7 @@ import { getLocalStorage } from "./helpers";
 import "core-js/stable";
 import "regenerator-runtime/runtime";
 import addRecipeView from "./views/addRecipeView";
+import { MODAL_CLOSE_SEC } from "./config";
 
 const controlRecipes = async function () {
   try {
@@ -80,8 +81,20 @@ const controlLoad = function () {
   // resultsView.render(query);
 };
 
-const controlAddRecipe = function (newRecipe) {
-  console.log(newRecipe);
+const controlAddRecipe = async function (newRecipe) {
+  try {
+    addRecipeView.renderSpinner();
+    await model.uploadRecipe(newRecipe);
+    addRecipeView.renderMessage("Recipe was successfully uploaded");
+    recipeView.render(model.state.recipe);
+    bookmarksView.render(model.state.bookmarks);
+    window.history.pushState(null, "", `#${model.state.recipe.id}`);
+    setTimeout(() => {
+      addRecipeView.toggleWindow();
+    }, MODAL_CLOSE_SEC * 1000);
+  } catch (err) {
+    addRecipeView.renderError(err.message);
+  }
 };
 
 const init = function () {
