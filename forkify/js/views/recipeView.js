@@ -1,6 +1,7 @@
 // import { Fraction } from "fractional";
 import icons from "../../img/icons.svg";
 import View from "./View";
+import { decimalToMixedNumber } from "../helpers";
 
 class RecipeView extends View {
   errorMessage = "No recipes found for your query. Please try again!";
@@ -133,7 +134,11 @@ class RecipeView extends View {
               <svg class="recipe__icon">
                 <use href="${icons}#icon-check"></use>
               </svg>
-              <div class="recipe__quantity">${ingredient.quantity}</div>
+              <div class="recipe__quantity">${
+                ingredient.quantity
+                  ? decimalToMixedNumber(ingredient.quantity)
+                  : ""
+              }</div>
               <div class="recipe__description">
               <span class="recipe__unit">${ingredient.unit}</span>
                 ${ingredient.description}
