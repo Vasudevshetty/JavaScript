@@ -7,8 +7,6 @@ import bookmarksView from "./views/bookmarksView";
 
 import { getLocalStorage } from "./helpers";
 
-import "core-js/stable";
-import "regenerator-runtime/runtime";
 import addRecipeView from "./views/addRecipeView";
 import { MODAL_CLOSE_SEC } from "./config";
 

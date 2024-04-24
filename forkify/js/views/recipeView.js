@@ -1,4 +1,4 @@
-import { Fraction } from "fractional";
+// import { Fraction } from "fractional";
 import icons from "../../img/icons.svg";
 import View from "./View";
 
@@ -34,7 +34,6 @@ class RecipeView extends View {
   }
 
   _generateMarkup() {
-    console.log(this.data);
     return `
     <div class="recipe">
         <figure class="recipe__fig">
@@ -134,9 +133,7 @@ class RecipeView extends View {
               <svg class="recipe__icon">
                 <use href="${icons}#icon-check"></use>
               </svg>
-              <div class="recipe__quantity">${
-                ingredient.quantity ? new Fraction(ingredient.quantity) : ""
-              }</div>
+              <div class="recipe__quantity">${ingredient.quantity}</div>
               <div class="recipe__description">
               <span class="recipe__unit">${ingredient.unit}</span>
                 ${ingredient.description}
